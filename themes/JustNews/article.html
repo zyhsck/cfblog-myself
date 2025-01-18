@@ -26,6 +26,38 @@
 		<link rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/10.3.2/styles/tomorrow-night-bright.min.css">
 		<script src='https://cdn.staticfile.org/highlight.js/10.3.2/highlight.min.js'></script>
 		{{ &OPT.codeBeforHead }}
+		<script>addEventListener('fetch', event => {
+			event.respondWith(handleRequest(event.request))
+		  })
+		  
+		  async function handleRequest(request) {
+			const response = await fetch(request)
+		  
+			// 克隆响应对象以便修改头部
+			const newResponse = new Response(response.body, response)
+		  
+			// 添加 CORS 头部
+			newResponse.headers.set('Access-Control-Allow-Origin', '*')  // 允许所有域名访问
+			newResponse.headers.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')  // 允许的方法
+			newResponse.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization')  // 允许的请求头
+			newResponse.headers.set('Access-Control-Allow-Credentials', 'true')  // 如果需要携带凭证（如 cookies）
+		  
+			// 处理 OPTIONS 请求（预检请求）
+			if (request.method === 'OPTIONS') {
+			  return new Response(null, {
+				status: 204,
+				headers: {
+				  'Access-Control-Allow-Origin': '*',
+				  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+				  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+				  'Access-Control-Allow-Credentials': 'true'
+				}
+			  })
+			}
+		  
+			return newResponse
+		  }
+		  </script>
 	</head>
 	<body class="archive paged category category-zhishi category-5 paged-2 category-paged-2 lang-cn el-boxed">
 		<header class="header">
