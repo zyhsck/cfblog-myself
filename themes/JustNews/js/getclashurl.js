@@ -1,5 +1,6 @@
-
+console.log("getclashurl.js loaded");
 document.addEventListener('DOMContentLoaded', function() {
+
     // Get the current date
     var today = new Date();
 
