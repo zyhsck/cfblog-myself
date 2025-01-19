@@ -24,7 +24,7 @@ function submitTextToAPI(textNodes, language) {
     // 构造API请求URL，传递文本、源语言和目标语言
     let apiUrl = new URL('https://your-cloudflare-worker-url.com/translate');  // 替换为你自己的API URL
     apiUrl.searchParams.append('text', texts.join(' '));  // 将所有文本合并为一个字符串
-    apiUrl.searchParams.append('source_lang', 'en');  // 默认源语言
+    apiUrl.searchParams.append('source_lang', 'zh');  // 默认源语言
     apiUrl.searchParams.append('target_lang', language);  // 使用用户选择的目标语言
 
     fetch(apiUrl)
