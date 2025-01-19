@@ -1,36 +1,25 @@
-// 获取页面中的所有可见 <a> 标签的 title 属性、<p> 标签和 <h> 标签的文本
+// 获取页面中的所有可见文本
 function getVisibleTextContent() {
-    let walker = document.createTreeWalker(document.body, NodeFilter.SHOW_ELEMENT, null, false);
+    let walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
     let visibleTextNodes = [];
     let node;
 
     while (node = walker.nextNode()) {
-        // 获取 <a> 标签的 title 属性
-        if (node.tagName === 'A' && node.hasAttribute('title')) {
-            let title = node.getAttribute('title');
-            if (title.trim() !== '') {
-                node.setAttribute('data-original-title', title); // 保存原始title
-                visibleTextNodes.push({ type: 'title', element: node, text: title, rect: node.getBoundingClientRect() });
-            }
-        }
-        // 获取 <p> 标签和 <h> 标签的文本
-        else if ((node.tagName === 'P' || node.tagName.startsWith('H')) && isElementVisible(node)) {
-            let textContent = node.textContent.trim();
-            if (textContent !== '') {
-                node.setAttribute('data-original-text', textContent); // 保存原始文本
-                visibleTextNodes.push({ type: 'text', element: node, text: textContent, rect: node.getBoundingClientRect() });
-            }
+        // 判断文本是否为中文，如果是，则加入
+        let textContent = node.textContent.trim();
+        if (textContent && !isEnglish(textContent)) {
+            node.setAttribute('data-original-text', textContent); // 保存原始文本
+            visibleTextNodes.push({ type: 'text', element: node, text: textContent });
         }
     }
+
     console.log('Extracted visible text nodes:', visibleTextNodes);  // Log the extracted text nodes
     return visibleTextNodes;
 }
 
-// 判断元素是否在视口内可见
-function isElementVisible(element) {
-    const rect = element.getBoundingClientRect();
-    console.log('Element visibility check:', rect);  // Debug log for visibility check
-    return rect.top < window.innerHeight && rect.bottom >= 0 && rect.left < window.innerWidth && rect.right >= 0;
+// 判断文本是否是英文
+function isEnglish(text) {
+    return /^[A-Za-z0-9\s.,!?'"()_-]*$/.test(text);
 }
 
 // 获取 id 为 now_language 的 select 元素的值
@@ -41,12 +30,12 @@ function getSelectedLanguage() {
 
 // 提交文本到 API 并替换页面中的文本
 function submitTextToAPI(textNodes, language) {
-    let texts = textNodes.map(node => node.text);
+    let texts = textNodes.map(node => node.text).join('|');  // 用 '|' 连接所有文本
     
     // 构造API请求URL，传递文本、源语言和目标语言
     let corsProxy = 'https://cors-anywhere.herokuapp.com/';
     let apiUrl = new URL('https://translate.yhswz.eu.org');
-    apiUrl.searchParams.append('text', texts.join(' '));
+    apiUrl.searchParams.append('text', texts);
     apiUrl.searchParams.append('source_lang', 'zh');
     apiUrl.searchParams.append('target_lang', language);
 
@@ -58,25 +47,14 @@ function submitTextToAPI(textNodes, language) {
             console.log('API response:', data);  // Log the entire response
             let translatedTexts = data.response.translated_text || [];
             
-            // Verify the length of text nodes and translated texts
-            //console.log('Number of textNodes:', textNodes.length);
-            //console.log('Number of translatedTexts:', translatedTexts.length);
+            // 将返回的翻译文本用 '|' 分割
+            let translatedArray = translatedTexts.split('|');
 
-            // Replace text on the page if translation exists
+            // 替换页面上的文本
             textNodes.forEach((node, index) => {
-                // Store the original scroll position for each element
-                const scrollPosition = window.scrollY;
-
-                if (translatedTexts[index]) {
-                    if (node.type === 'title') {
-                        node.element.setAttribute('title', translatedTexts[index]);
-                    } else {
-                        node.element.textContent = translatedTexts[index];
-                    }
+                if (translatedArray[index]) {
+                    node.element.textContent = translatedArray[index];
                 }
-
-                // Scroll back to the original position
-                window.scrollTo(0, scrollPosition);
             });
         })
         .catch(error => console.error('Error:', error));
