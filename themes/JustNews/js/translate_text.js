@@ -29,45 +29,24 @@ function getSelectedLanguage() {
 }
 
 // 提交文本到 API 并替换页面中的文本
-function submitTextToAPI(textNodes, language) {
+async function submitTextToAPI(textNodes, language) {
     let texts = textNodes.map(node => node.text).join('|');  // 用 '|' 连接所有文本
-    
-    // 构造API请求URL，传递文本、源语言和目标语言
-    let corsProxy = 'https://cors-anywhere.herokuapp.com/';
-    let apiUrl = new URL('https://translate.yhswz.eu.org');
-    apiUrl.searchParams.append('text', texts);
-    apiUrl.searchParams.append('source_lang', 'zh');
-    apiUrl.searchParams.append('target_lang', language);
 
-    console.log('API Request URL:', corsProxy + apiUrl);  // Log the constructed API request URL
-
-    fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-            console.log('API response:', data);  // Log the entire response
-            let translatedTexts = data.response.translated_text || [];
-            
-            // 将返回的翻译文本用 '|' 分割
-            let translatedArray = translatedTexts.split('|');
-
-            // 替换页面上的文本
-            textNodes.forEach((node, index) => {
-                if (translatedArray[index]) {
-                    node.element.textContent = translatedArray[index];
-                }
-            });
-        })
-        .catch(error => console.error('Error:', error));
+    try {
+        let response = await fetch(`https://your-api-endpoint?text=${encodeURIComponent(texts)}&source_lang=zh&target_lang=${language}`);
+        let result = await response.json();
+        let translations = result.response.split('|');
+        textNodes.forEach((node, index) => {
+            node.element.textContent = translations[index];
+        });
+    } catch (error) {
+        console.error('Error translating text:', error);
+    }
 }
 
-// 页面加载完成后自动执行翻译
-window.addEventListener('load', function() {
-    let textNodes = getVisibleTextContent();  // 获取可见文本节点
-    let language = getSelectedLanguage();
-    if (language && textNodes.length > 0) {
-        console.log('可见文本节点：', textNodes);  // Log extracted text nodes
-        submitTextToAPI(textNodes, language);
-    } else {
-        console.warn('未找到可见文本节点或未选择语言');
-    }
-});
+// 示例调用
+let textNodes = getVisibleTextContent();
+let language = getSelectedLanguage();
+if (language) {
+    submitTextToAPI(textNodes, language);
+}
