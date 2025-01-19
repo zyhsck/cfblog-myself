@@ -1,14 +1,21 @@
-// 获取页面中的所有可见文本节点
+// 获取页面中的所有可见 <a> 标签的 title 属性、<p> 标签和 <h> 标签的文本
 function getVisibleTextContent() {
-    let walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
+    let walker = document.createTreeWalker(document.body, NodeFilter.SHOW_ELEMENT, null, false);
     let visibleTextNodes = [];
     let node;
 
     while (node = walker.nextNode()) {
-        // 判断文本节点是否可见
-        let parentElement = node.parentElement;
-        if (parentElement && isElementVisible(parentElement) && node.nodeValue.trim() !== '') {
-            visibleTextNodes.push(node);
+        // 获取 <a> 标签的 title 属性、<p> 标签和 <h> 标签的文本
+        if (node.tagName === 'A' && node.hasAttribute('title')) {
+            let title = node.getAttribute('title');
+            if (title.trim() !== '') {
+                visibleTextNodes.push({ type: 'title', element: node, text: title });
+            }
+        } else if ((node.tagName === 'P' || node.tagName.startsWith('H')) && isElementVisible(node)) {
+            let textContent = node.textContent.trim();
+            if (textContent !== '') {
+                visibleTextNodes.push({ type: 'text', element: node, text: textContent });
+            }
         }
     }
     return visibleTextNodes;
@@ -28,7 +35,7 @@ function getSelectedLanguage() {
 
 // 提交文本到 API 并替换页面中的文本
 function submitTextToAPI(textNodes, language) {
-    let texts = textNodes.map(node => node.nodeValue);
+    let texts = textNodes.map(node => node.text);
     
     // 构造API请求URL，传递文本、源语言和目标语言
     let apiUrl = new URL('https://translate.yhswz.eu.org');  // 替换为你自己的API URL
@@ -42,7 +49,11 @@ function submitTextToAPI(textNodes, language) {
             let translatedTexts = data.response.translated_text || [];
             textNodes.forEach((node, index) => {
                 if (translatedTexts[index]) {
-                    node.nodeValue = translatedTexts[index]; // 替换为翻译后的文本
+                    if (node.type === 'title') {
+                        node.element.setAttribute('title', translatedTexts[index]); // 替换 title 属性
+                    } else {
+                        node.element.textContent = translatedTexts[index]; // 替换为翻译后的文本
+                    }
                 }
             });
         })
