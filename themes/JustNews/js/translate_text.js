@@ -50,16 +50,22 @@ function submitTextToAPI(textNodes, language) {
     fetch(corsProxy + apiUrl)
         .then(response => response.json())
         .then(data => {
+            console.log('API 返回数据：', data);  // 增加日志输出，查看返回数据
             let translatedTexts = data.response.translated_text || [];
-            textNodes.forEach((node, index) => {
-                if (translatedTexts[index]) {
-                    if (node.type === 'title') {
-                        node.element.setAttribute('title', translatedTexts[index]); // 替换 title 属性
-                    } else {
-                        node.element.textContent = translatedTexts[index]; // 替换为翻译后的文本
+            
+            if (translatedTexts.length === textNodes.length) {
+                textNodes.forEach((node, index) => {
+                    if (translatedTexts[index]) {
+                        if (node.type === 'title') {
+                            node.element.setAttribute('title', translatedTexts[index]); // 替换 title 属性
+                        } else {
+                            node.element.textContent = translatedTexts[index]; // 替换为翻译后的文本
+                        }
                     }
-                }
-            });
+                });
+            } else {
+                console.error('翻译文本数量与页面文本数量不匹配');
+            }
         })
         .catch(error => console.error('Error:', error));
 }
@@ -69,6 +75,7 @@ window.addEventListener('load', function() {
     let textNodes = getVisibleTextContent();  // 获取可见文本节点
     let language = getSelectedLanguage();
     if (language && textNodes.length > 0) {
+        console.log('可见文本节点：', textNodes);  // 增加日志输出，查看提取的文本
         submitTextToAPI(textNodes, language);
     } else {
         console.warn('未找到可见文本节点或未选择语言');
