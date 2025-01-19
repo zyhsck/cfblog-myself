@@ -42,7 +42,7 @@ async function submitTextToAPI(textNodes, language) {
     } catch (error) {
         console.error('Error translating text:', error);
     }
-}
+} 
 
 // 示例调用
 let textNodes = getVisibleTextContent();
