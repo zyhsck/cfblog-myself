@@ -9,6 +9,7 @@ function getVisibleTextContent() {
         if (node.tagName === 'A' && node.hasAttribute('title')) {
             let title = node.getAttribute('title');
             if (title.trim() !== '') {
+                node.setAttribute('data-original-title', title); // 保存原始title
                 visibleTextNodes.push({ type: 'title', element: node, text: title });
             }
         }
@@ -16,6 +17,7 @@ function getVisibleTextContent() {
         else if ((node.tagName === 'P' || node.tagName.startsWith('H')) && isElementVisible(node)) {
             let textContent = node.textContent.trim();
             if (textContent !== '') {
+                node.setAttribute('data-original-text', textContent); // 保存原始文本
                 visibleTextNodes.push({ type: 'text', element: node, text: textContent });
             }
         }
