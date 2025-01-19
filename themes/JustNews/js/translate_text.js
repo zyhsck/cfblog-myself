@@ -5,13 +5,15 @@ function getVisibleTextContent() {
     let node;
 
     while (node = walker.nextNode()) {
-        // 获取 <a> 标签的 title 属性、<p> 标签和 <h> 标签的文本
+        // 获取 <a> 标签的 title 属性
         if (node.tagName === 'A' && node.hasAttribute('title')) {
             let title = node.getAttribute('title');
             if (title.trim() !== '') {
                 visibleTextNodes.push({ type: 'title', element: node, text: title });
             }
-        } else if ((node.tagName === 'P' || node.tagName.startsWith('H')) && isElementVisible(node)) {
+        }
+        // 获取 <p> 标签和 <h> 标签的文本
+        else if ((node.tagName === 'P' || node.tagName.startsWith('H')) && isElementVisible(node)) {
             let textContent = node.textContent.trim();
             if (textContent !== '') {
                 visibleTextNodes.push({ type: 'text', element: node, text: textContent });
