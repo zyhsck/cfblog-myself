@@ -43,7 +43,7 @@ function submitTextToAPI(textNodes, language) {
     apiUrl.searchParams.append('source_lang', 'zh');  // 默认源语言
     apiUrl.searchParams.append('target_lang', language);  // 使用用户选择的目标语言
 
-    fetch(apiUrl)
+    fetch(apiUrl) 
         .then(response => response.json())
         .then(data => {
             let translatedTexts = data.response.translated_text || [];

@@ -8,7 +8,7 @@ month = '0' + month;
 }
 var day = today.getDate();
 if (day.toString().length == 1) {
-day = '0' + day;
+day = '0' + day; 
 }
 var clash_u1 = document.getElementById('clash_url1');
 var clash_u2 = document.getElementById('clash_url2');
