@@ -22,12 +22,14 @@ function getVisibleTextContent() {
             }
         }
     }
+    console.log('Extracted visible text nodes:', visibleTextNodes);  // Log the extracted text nodes
     return visibleTextNodes;
 }
 
 // 判断元素是否在视口内可见
 function isElementVisible(element) {
     const rect = element.getBoundingClientRect();
+    console.log('Element visibility check:', rect);  // Debug log for visibility check
     return rect.top < window.innerHeight && rect.bottom >= 0 && rect.left < window.innerWidth && rect.right >= 0;
 }
 
@@ -48,11 +50,20 @@ function submitTextToAPI(textNodes, language) {
     apiUrl.searchParams.append('source_lang', 'zh');
     apiUrl.searchParams.append('target_lang', language);
 
+    console.log('API Request URL:', corsProxy + apiUrl);  // Log the constructed API request URL
+
     fetch(corsProxy + apiUrl)
         .then(response => response.json())
         .then(data => {
+            console.log('API response:', data);  // Log the entire response
             let translatedTexts = data.response.translated_text || [];
-            console.log('翻译结果：', translatedTexts);  // 增加日志输出，查看翻译结果
+            console.log('Translated texts:', translatedTexts);  // Log the translated texts
+            
+            // Verify the length of text nodes and translated texts
+            console.log('Number of textNodes:', textNodes.length);
+            console.log('Number of translatedTexts:', translatedTexts.length);
+
+            // Replace text on the page if translation exists
             textNodes.forEach((node, index) => {
                 if (translatedTexts[index]) {
                     if (node.type === 'title') {
@@ -64,7 +75,6 @@ function submitTextToAPI(textNodes, language) {
             });
         })
         .catch(error => console.error('Error:', error));
-
 }
 
 // 页面加载完成后自动执行翻译
@@ -72,7 +82,7 @@ window.addEventListener('load', function() {
     let textNodes = getVisibleTextContent();  // 获取可见文本节点
     let language = getSelectedLanguage();
     if (language && textNodes.length > 0) {
-        console.log('可见文本节点：', textNodes);  // 增加日志输出，查看提取的文本
+        console.log('可见文本节点：', textNodes);  // Log extracted text nodes
         submitTextToAPI(textNodes, language);
     } else {
         console.warn('未找到可见文本节点或未选择语言');
