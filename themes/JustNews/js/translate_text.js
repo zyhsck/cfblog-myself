@@ -1,14 +1,23 @@
-// 获取页面中的所有文本节点的文本内容
-function getTextContent() {
+// 获取页面中的所有可见文本节点
+function getVisibleTextContent() {
     let walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null, false);
-    let textNodes = [];
+    let visibleTextNodes = [];
     let node;
+
     while (node = walker.nextNode()) {
-        if (node.nodeValue.trim() !== '') {
-            textNodes.push(node);
+        // 判断文本节点是否可见
+        let parentElement = node.parentElement;
+        if (parentElement && isElementVisible(parentElement) && node.nodeValue.trim() !== '') {
+            visibleTextNodes.push(node);
         }
     }
-    return textNodes;
+    return visibleTextNodes;
+}
+
+// 判断元素是否在视口内可见
+function isElementVisible(element) {
+    const rect = element.getBoundingClientRect();
+    return rect.top < window.innerHeight && rect.bottom >= 0 && rect.left < window.innerWidth && rect.right >= 0;
 }
 
 // 获取 id 为 now_language 的 select 元素的值
@@ -22,7 +31,7 @@ function submitTextToAPI(textNodes, language) {
     let texts = textNodes.map(node => node.nodeValue);
     
     // 构造API请求URL，传递文本、源语言和目标语言
-    let apiUrl = new URL('https://your-cloudflare-worker-url.com/translate');  // 替换为你自己的API URL
+    let apiUrl = new URL('https://translate.yhswz.eu.org');  // 替换为你自己的API URL
     apiUrl.searchParams.append('text', texts.join(' '));  // 将所有文本合并为一个字符串
     apiUrl.searchParams.append('source_lang', 'zh');  // 默认源语言
     apiUrl.searchParams.append('target_lang', language);  // 使用用户选择的目标语言
@@ -42,11 +51,11 @@ function submitTextToAPI(textNodes, language) {
 
 // 页面加载完成后自动执行翻译
 window.addEventListener('load', function() {
-    let textNodes = getTextContent();
+    let textNodes = getVisibleTextContent();  // 获取可见文本节点
     let language = getSelectedLanguage();
     if (language && textNodes.length > 0) {
         submitTextToAPI(textNodes, language);
     } else {
-        console.warn('未找到文本节点或未选择语言');
+        console.warn('未找到可见文本节点或未选择语言');
     }
 });
