@@ -40,34 +40,28 @@ function submitTextToAPI(textNodes, language) {
     let texts = textNodes.map(node => node.text);
     
     // 构造API请求URL，传递文本、源语言和目标语言
-    let apiUrl = new URL('https://translate.yhswz.eu.org');  // 替换为你自己的API URL
-    apiUrl.searchParams.append('text', texts.join(' '));  // 将所有文本合并为一个字符串
-    apiUrl.searchParams.append('source_lang', 'zh');  // 默认源语言
-    apiUrl.searchParams.append('target_lang', language);  // 使用用户选择的目标语言
-
-    // 使用 CORS 代理绕过 CORS 限制
     let corsProxy = 'https://cors-anywhere.herokuapp.com/';
+    let apiUrl = new URL('https://translate.yhswz.eu.org');
+    apiUrl.searchParams.append('text', texts.join(' '));
+    apiUrl.searchParams.append('source_lang', 'zh');
+    apiUrl.searchParams.append('target_lang', language);
+
     fetch(corsProxy + apiUrl)
         .then(response => response.json())
         .then(data => {
-            console.log('API 返回数据：', data);  // 增加日志输出，查看返回数据
             let translatedTexts = data.response.translated_text || [];
-            
-            if (translatedTexts.length === textNodes.length) {
-                textNodes.forEach((node, index) => {
-                    if (translatedTexts[index]) {
-                        if (node.type === 'title') {
-                            node.element.setAttribute('title', translatedTexts[index]); // 替换 title 属性
-                        } else {
-                            node.element.textContent = translatedTexts[index]; // 替换为翻译后的文本
-                        }
+            textNodes.forEach((node, index) => {
+                if (translatedTexts[index]) {
+                    if (node.type === 'title') {
+                        node.element.setAttribute('title', translatedTexts[index]);
+                    } else {
+                        node.element.textContent = translatedTexts[index];
                     }
-                });
-            } else {
-                console.error('翻译文本数量与页面文本数量不匹配');
-            }
+                }
+            });
         })
         .catch(error => console.error('Error:', error));
+
 }
 
 // 页面加载完成后自动执行翻译
