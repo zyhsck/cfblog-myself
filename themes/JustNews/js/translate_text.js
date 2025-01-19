@@ -50,6 +50,7 @@ function submitTextToAPI(textNodes, language) {
         .then(response => response.json())
         .then(data => {
             let translatedTexts = data.response.translated_text || [];
+            console.log('翻译结果：', translatedTexts);  // 增加日志输出，查看翻译结果
             textNodes.forEach((node, index) => {
                 if (translatedTexts[index]) {
                     if (node.type === 'title') {
