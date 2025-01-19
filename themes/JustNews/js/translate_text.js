@@ -52,16 +52,16 @@ function submitTextToAPI(textNodes, language) {
 
     console.log('API Request URL:', corsProxy + apiUrl);  // Log the constructed API request URL
 
-    fetch(corsProxy + apiUrl)
+    fetch(apiUrl)
         .then(response => response.json())
         .then(data => {
             console.log('API response:', data);  // Log the entire response
             let translatedTexts = data.response.translated_text || [];
-            console.log('Translated texts:', translatedTexts);  // Log the translated texts
+            //console.log('Translated texts:', translatedTexts);  // Log the translated texts
             
             // Verify the length of text nodes and translated texts
-            console.log('Number of textNodes:', textNodes.length);
-            console.log('Number of translatedTexts:', translatedTexts.length);
+            //console.log('Number of textNodes:', textNodes.length);
+            //console.log('Number of translatedTexts:', translatedTexts.length);
 
             // Replace text on the page if translation exists
             textNodes.forEach((node, index) => {
