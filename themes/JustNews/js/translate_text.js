@@ -33,7 +33,7 @@ async function submitTextToAPI(textNodes, language) {
     let texts = textNodes.map(node => node.text).join('|');  // 用 '|' 连接所有文本
 
     try {
-        let response = await fetch(`https://your-api-endpoint?text=${encodeURIComponent(texts)}&source_lang=zh&target_lang=${language}`);
+        let response = await fetch(`https://translate.yhswz.eu.org?text=${encodeURIComponent(texts)}&source_lang=zh&target_lang=${language}`);
         let result = await response.json();
         let translations = result.response.split('|');
         textNodes.forEach((node, index) => {
