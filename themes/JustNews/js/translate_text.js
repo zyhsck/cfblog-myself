@@ -10,7 +10,7 @@ function getVisibleTextContent() {
             let title = node.getAttribute('title');
             if (title.trim() !== '') {
                 node.setAttribute('data-original-title', title); // 保存原始title
-                visibleTextNodes.push({ type: 'title', element: node, text: title });
+                visibleTextNodes.push({ type: 'title', element: node, text: title, rect: node.getBoundingClientRect() });
             }
         }
         // 获取 <p> 标签和 <h> 标签的文本
@@ -18,7 +18,7 @@ function getVisibleTextContent() {
             let textContent = node.textContent.trim();
             if (textContent !== '') {
                 node.setAttribute('data-original-text', textContent); // 保存原始文本
-                visibleTextNodes.push({ type: 'text', element: node, text: textContent });
+                visibleTextNodes.push({ type: 'text', element: node, text: textContent, rect: node.getBoundingClientRect() });
             }
         }
     }
@@ -57,7 +57,6 @@ function submitTextToAPI(textNodes, language) {
         .then(data => {
             console.log('API response:', data);  // Log the entire response
             let translatedTexts = data.response.translated_text || [];
-            //console.log('Translated texts:', translatedTexts);  // Log the translated texts
             
             // Verify the length of text nodes and translated texts
             //console.log('Number of textNodes:', textNodes.length);
@@ -65,6 +64,9 @@ function submitTextToAPI(textNodes, language) {
 
             // Replace text on the page if translation exists
             textNodes.forEach((node, index) => {
+                // Store the original scroll position for each element
+                const scrollPosition = window.scrollY;
+
                 if (translatedTexts[index]) {
                     if (node.type === 'title') {
                         node.element.setAttribute('title', translatedTexts[index]);
@@ -72,6 +74,9 @@ function submitTextToAPI(textNodes, language) {
                         node.element.textContent = translatedTexts[index];
                     }
                 }
+
+                // Scroll back to the original position
+                window.scrollTo(0, scrollPosition);
             });
         })
         .catch(error => console.error('Error:', error));
