@@ -34,7 +34,7 @@ window.onload = function() {
 
         .slider-btn {
             position: absolute;
-            bottom: -30px;
+            
             width: 100%;
             padding: 10px;
             background-color: #2196F3;
