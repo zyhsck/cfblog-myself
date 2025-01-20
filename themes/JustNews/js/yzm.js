@@ -115,6 +115,7 @@ window.onload = function() {
                                 // 显示评论区
                                 document.getElementById('vcomment').style.display = 'block';
                                 document.getElementById('captcha_tips').style.display = 'none';
+                                document.getElementById('captcha').style.display = 'none';
                                 // 初始化 Valine
                                 new Valine({
                                     el: '#vcomment',
