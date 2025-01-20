@@ -120,6 +120,17 @@
                                 if (data.success) {
                                     alert('验证通过');
                                     sliderBlock.style.left = '0px'; // 重置滑块位置
+                                 // 显示评论区
+                                    document.getElementById('vcomment').style.display = 'block';
+                                    document.getElementById('captcha_tips').style.display = 'none';
+                                    // 初始化 Valine
+                                    new Valine({
+                                        el: '#vcomment',
+                                        appId: 'mGQqXQrRVZmob8DKm7RIKEp7-MdYXbMMI',
+                                        appKey: 'jAkrUC0ElQmq8wI34grFDYBJ',
+                                        avatar: 'monsterid',
+                                        serverURLs: 'https://mgqqxqrr.api.lncldglobal.com',
+                                        placeholder: "评论可以一针见血..."
                                 } else {
                                     alert('验证失败');
                                 }
