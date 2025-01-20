@@ -54,7 +54,7 @@
         document.head.appendChild(style);
 
         // 获取验证码的基本数据
-        fetch('https://yzm.1417402449.workers.dev/captcha')
+        fetch('https://translate.yhswz.eu.org/proxy?url=https://yzm.1417402449.workers.dev/captcha')
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
@@ -108,7 +108,7 @@
                             console.log("验证通过");
                             //alert('验证通过');
                             // 发起验证请求
-                            fetch('https://yzm.1417402449.workers.dev/verify', {
+                            fetch('https://translate.yhswz.eu.org/proxy?url=https://yzm.1417402449.workers.dev/verify', {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',
