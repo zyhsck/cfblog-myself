@@ -2,15 +2,7 @@ window.onload = function() {
     // 动态创建并插入样式
     const style = document.createElement('style');
     style.innerHTML = `
-        body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0;
-        }
+        
 
         .slider-container {
             position: relative;
