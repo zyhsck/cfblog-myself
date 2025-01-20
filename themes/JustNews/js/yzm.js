@@ -100,12 +100,12 @@ window.onload = function() {
                     if (currentPosition === targetPosition) {
                         console.log("验证通过");
                         // 发起验证请求
-                        fetch('https://translate.yhswz.eu.org/proxy?url=https://yzm.1417402449.workers.dev/verify', {
+                        fetch('https://translate.yhswz.eu.org/proxy?url=https://yzm.1417402449.workers.dev/verify&data='+JSON.stringify({ sliderPosition: currentPosition }), {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
                             },
-                            body: JSON.stringify({ sliderPosition: currentPosition })  // 发送滑块位置数据
+                           
                         })
                         .then(response => response.json())
                         .then(data => {
