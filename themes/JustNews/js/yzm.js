@@ -57,6 +57,7 @@ window.onload = function() {
         .then(data => {
             if (data.success) {
                 const targetPosition = data.captcha.sliderPosition;
+                const token = data.captcha.token;
                 const sliderBlock = document.getElementById('sliderBlock');
                 const sliderBtn = document.getElementById('sliderBtn');
                 
@@ -108,7 +109,7 @@ window.onload = function() {
                     // 验证用户滑动的距离是否正确
                     if (currentPosition === targetPosition) {
                         console.log("验证通过");
-                        fetch('https://translate.yhswz.eu.org/proxy?url=https://yzm.1417402449.workers.dev/verify&data='+JSON.stringify({ sliderPosition: currentPosition }), {
+                        fetch('https://translate.yhswz.eu.org/proxy?url=https://yzm.1417402449.workers.dev/verify&data='+JSON.stringify({ sliderPosition: currentPosition ,token: token}), {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
