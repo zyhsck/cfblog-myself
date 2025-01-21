@@ -2,8 +2,6 @@ window.onload = function() {
     // 动态创建并插入样式
     const style = document.createElement('style');
     style.innerHTML = `
-        
-
         .slider-container {
             position: relative;
             width: 300px;
@@ -34,7 +32,6 @@ window.onload = function() {
 
         .slider-btn {
             position: absolute;
-            
             width: 100%;
             padding: 10px;
             background-color: #2196F3;
@@ -54,7 +51,7 @@ window.onload = function() {
                 const targetPosition = data.captcha.sliderPosition;
                 const sliderBlock = document.getElementById('sliderBlock');
                 const sliderBtn = document.getElementById('sliderBtn');
-                let isMouseDown = false;
+                let isDragging = false;
                 let startX = 0;
                 let currentPosition = 0;
 
@@ -68,31 +65,31 @@ window.onload = function() {
                     sliderBlock.style.transition = 'none'; // 禁止滑块过渡效果
                 });
 
-                // 监听鼠标按下
-                sliderBlock.addEventListener('mousedown', (e) => {
+                // 监听触摸开始
+                sliderBlock.addEventListener('touchstart', (e) => {
                     if (sliderBtn.style.display === 'none') {
-                        console.log("鼠标按下，开始拖动");
-                        isMouseDown = true;
-                        startX = e.clientX;
+                        console.log("触摸开始，开始拖动");
+                        isDragging = true;
+                        startX = e.touches[0].clientX;
                         sliderBlock.style.transition = 'none'; // 禁止滑块的过渡
                     }
                 });
 
-                // 监听鼠标移动
-                document.addEventListener('mousemove', (e) => {
-                    if (!isMouseDown) return;
-                    let moveX = e.clientX - startX;
+                // 监听触摸移动
+                document.addEventListener('touchmove', (e) => {
+                    if (!isDragging) return;
+                    let moveX = e.touches[0].clientX - startX;
                     if (moveX < 0) moveX = 0;
                     if (moveX > 250) moveX = 250; // 限制滑动距离
                     sliderBlock.style.left = moveX + 'px';
                     currentPosition = moveX;
                 });
 
-                // 监听鼠标抬起
-                document.addEventListener('mouseup', () => {
-                    if (!isMouseDown) return;
-                    console.log("鼠标松开，结束拖动");
-                    isMouseDown = false;
+                // 监听触摸结束
+                document.addEventListener('touchend', () => {
+                    if (!isDragging) return;
+                    console.log("触摸结束，结束拖动");
+                    isDragging = false;
                     let currentPosition = parseInt(sliderBlock.style.left || 0);
                     console.log("滑块当前位置:", currentPosition);
 
@@ -105,7 +102,6 @@ window.onload = function() {
                             headers: {
                                 'Content-Type': 'application/json',
                             },
-                           
                         })
                         .then(response => response.json())
                         .then(data => {
