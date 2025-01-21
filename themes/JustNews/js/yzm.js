@@ -34,7 +34,7 @@ window.onload = function() {
             position: absolute;
             width: 100%;
             padding: 10px;
-            background-color: #2196F3;
+            background-color:  #ee2e05;
             color: white;
             font-size: 16px;
             border-radius: 20px;
