@@ -3,7 +3,7 @@ window.onload = function() {
     const style = document.createElement('style');
     style.innerHTML = `
         .slider-container {
-            position: relative; 
+            position: relative;
             width: 300px;
             height: 50px;
             text-align: center;
@@ -18,23 +18,31 @@ window.onload = function() {
             overflow: hidden;
         }
 
-        .slider-block {
+        .slider-block, .target-block {
             position: absolute;
             top: 0;
-            left: 0;
             width: 50px;
             height: 100%;
             background-color: #000;
             border-radius: 25px;
+        }
+
+        .slider-block {
+            left: 0;
             cursor: pointer;
             transition: left 0.3s ease;
+        }
+
+        .target-block {
+            background-color: #ff5722;
+            pointer-events: none;
         }
 
         .slider-btn {
             position: absolute;
             width: 100%;
             padding: 10px;
-            background-color:  #ee2e05;
+            background-color: #ee2e05;
             color: white;
             font-size: 16px;
             border-radius: 20px;
@@ -51,6 +59,13 @@ window.onload = function() {
                 const targetPosition = data.captcha.sliderPosition;
                 const sliderBlock = document.getElementById('sliderBlock');
                 const sliderBtn = document.getElementById('sliderBtn');
+                
+                // 创建目标位置方块
+                const targetBlock = document.createElement('div');
+                targetBlock.className = 'target-block';
+                targetBlock.style.left = `${targetPosition}px`;
+                document.querySelector('.slider-bg').appendChild(targetBlock);
+
                 let isDragging = false;
                 let startX = 0;
                 let currentPosition = 0;
