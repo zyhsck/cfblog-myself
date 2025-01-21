@@ -3,7 +3,7 @@ window.onload = function() {
     const style = document.createElement('style');
     style.innerHTML = `
         .slider-container {
-            position: relative;
+            position: relative; 
             width: 300px;
             height: 50px;
             text-align: center;
