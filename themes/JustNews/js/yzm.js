@@ -57,7 +57,7 @@ window.onload = function() {
         .then(data => {
             if (data.success) {
                 const targetPosition = data.captcha.sliderPosition;
-                const token = data.captcha.token;
+                const token = data.token;
                 const sliderBlock = document.getElementById('sliderBlock');
                 const sliderBtn = document.getElementById('sliderBtn');
                 
