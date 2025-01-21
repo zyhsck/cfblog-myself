@@ -71,7 +71,7 @@ window.onload = function() {
     }).catch(error => {
         console.error('Error:', error);
     });
-};
+
 
 // 获取验证码数据
 async function fetchCaptchaData(url) {
