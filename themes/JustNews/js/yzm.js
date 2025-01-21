@@ -198,3 +198,4 @@ function handleFailure() {
     document.getElementById('captcha_tips').style.display = 'block';
     document.getElementById('captcha').style.display = 'block';
 }
+}
