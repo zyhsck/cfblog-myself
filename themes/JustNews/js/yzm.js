@@ -65,38 +65,34 @@ window.onload = function() {
                     sliderBlock.style.transition = 'none'; // 禁止滑块过渡效果
                 });
 
-                // 监听触摸开始
-                sliderBlock.addEventListener('touchstart', (e) => {
+                // 通用事件开始
+                const startDrag = (x) => {
                     if (sliderBtn.style.display === 'none') {
-                        console.log("触摸开始，开始拖动");
                         isDragging = true;
-                        startX = e.touches[0].clientX;
-                        sliderBlock.style.transition = 'none'; // 禁止滑块的过渡
+                        startX = x;
+                        sliderBlock.style.transition = 'none';
                     }
-                });
+                };
 
-                // 监听触摸移动
-                document.addEventListener('touchmove', (e) => {
+                // 通用事件移动
+                const moveDrag = (x) => {
                     if (!isDragging) return;
-                    let moveX = e.touches[0].clientX - startX;
+                    let moveX = x - startX;
                     if (moveX < 0) moveX = 0;
-                    if (moveX > 250) moveX = 250; // 限制滑动距离
+                    if (moveX > 250) moveX = 250;
                     sliderBlock.style.left = moveX + 'px';
                     currentPosition = moveX;
-                });
+                };
 
-                // 监听触摸结束
-                document.addEventListener('touchend', () => {
+                // 通用事件结束
+                const endDrag = () => {
                     if (!isDragging) return;
-                    console.log("触摸结束，结束拖动");
                     isDragging = false;
-                    let currentPosition = parseInt(sliderBlock.style.left || 0);
                     console.log("滑块当前位置:", currentPosition);
 
                     // 验证用户滑动的距离是否正确
                     if (currentPosition === targetPosition) {
                         console.log("验证通过");
-                        // 发起验证请求
                         fetch('https://translate.yhswz.eu.org/proxy?url=https://yzm.1417402449.workers.dev/verify&data='+JSON.stringify({ sliderPosition: currentPosition }), {
                             method: 'POST',
                             headers: {
@@ -107,12 +103,10 @@ window.onload = function() {
                         .then(data => {
                             if (data.success) {
                                 alert('验证通过');
-                                sliderBlock.style.left = '0px'; // 重置滑块位置
-                                // 显示评论区
+                                sliderBlock.style.left = '0px';
                                 document.getElementById('vcomment').style.display = 'block';
                                 document.getElementById('captcha_tips').style.display = 'none';
                                 document.getElementById('captcha').style.display = 'none';
-                                // 初始化 Valine
                                 new Valine({
                                     el: '#vcomment',
                                     appId: 'mGQqXQrRVZmob8DKm7RIKEp7-MdYXbMMI',
@@ -130,9 +124,18 @@ window.onload = function() {
                         });
                     } else {
                         console.log("验证失败，重置滑块位置");
-                        sliderBlock.style.left = '0px'; // 滑动不成功，重置滑块位置
+                        sliderBlock.style.left = '0px';
                     }
-                });
+                };
+
+                // 监听鼠标和触摸事件
+                sliderBlock.addEventListener('mousedown', (e) => startDrag(e.clientX));
+                document.addEventListener('mousemove', (e) => moveDrag(e.clientX));
+                document.addEventListener('mouseup', endDrag);
+
+                sliderBlock.addEventListener('touchstart', (e) => startDrag(e.touches[0].clientX));
+                document.addEventListener('touchmove', (e) => moveDrag(e.touches[0].clientX));
+                document.addEventListener('touchend', endDrag);
 
                 // 禁止默认拖拽行为
                 sliderBlock.ondragstart = () => false;
