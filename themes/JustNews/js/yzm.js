@@ -56,6 +56,7 @@ window.onload = function() {
         captchaUrl: 'https://translate.yhswz.eu.org/proxy?url=https://yzm.1417402449.workers.dev/captcha',  // 获取验证码的 API
         verifyUrl: 'https://translate.yhswz.eu.org/proxy?url=https://yzm.1417402449.workers.dev/verify', // 验证的 API
         successCallback: handleSuccess, // 验证成功后的回调函数
+        failureCallback: handleFailure, // 验证失败后的回调函数
     };
 
     // 获取验证码并执行相应的逻辑
@@ -63,7 +64,7 @@ window.onload = function() {
         if (data.success) {
             const targetPosition = data.captcha.sliderPosition;
             const token = data.token;
-            initializeSlider(targetPosition, token, config.verifyUrl, config.successCallback);
+            initializeSlider(targetPosition, token, config.verifyUrl, config.successCallback, config.failureCallback);
         } else {
             console.log('获取验证码失败');
         }
@@ -79,7 +80,7 @@ async function fetchCaptchaData(url) {
 }
 
 // 初始化滑动验证
-function initializeSlider(targetPosition, token, verifyUrl, successCallback) {
+function initializeSlider(targetPosition, token, verifyUrl, successCallback, failureCallback) {
     const sliderBlock = document.getElementById('sliderBlock');
     const sliderBtn = document.getElementById('sliderBtn');
 
@@ -132,10 +133,11 @@ function initializeSlider(targetPosition, token, verifyUrl, successCallback) {
         const tolerance = 5;
         if (Math.abs(targetPosition - parseInt(currentPosition)) <= tolerance) {
             console.log("验证通过");
-            verifyCaptcha(currentPosition, token, verifyUrl, successCallback);
+            verifyCaptcha(currentPosition, token, verifyUrl, successCallback, failureCallback);
         } else {
             console.log("验证失败，重置滑块位置");
             sliderBlock.style.left = '0px';
+            failureCallback();
         }
     };
 
@@ -153,7 +155,7 @@ function initializeSlider(targetPosition, token, verifyUrl, successCallback) {
 }
 
 // 发送验证请求
-async function verifyCaptcha(currentPosition, token, verifyUrl, successCallback) {
+async function verifyCaptcha(currentPosition, token, verifyUrl, successCallback, failureCallback) {
     const response = await fetch(`${verifyUrl}&data=${JSON.stringify({ sliderPosition: currentPosition, token: token })}`, {
         method: 'POST',
         headers: {
@@ -165,7 +167,7 @@ async function verifyCaptcha(currentPosition, token, verifyUrl, successCallback)
     if (data.success) {
         successCallback();
     } else {
-        alert('验证失败');
+        failureCallback();
     }
 }
 
@@ -186,4 +188,13 @@ function handleSuccess() {
         serverURLs: 'https://mgqqxqrr.api.lncldglobal.com',
         placeholder: "评论可以一针见血..."
     });
+}
+
+// 验证失败后的处理
+function handleFailure() {
+    alert('验证失败，请重试');
+    const sliderBlock = document.getElementById('sliderBlock');
+    sliderBlock.style.left = '0px'; // 重置滑块位置
+    document.getElementById('captcha_tips').style.display = 'block';
+    document.getElementById('captcha').style.display = 'block';
 }
