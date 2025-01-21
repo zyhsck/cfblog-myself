@@ -107,7 +107,8 @@ window.onload = function() {
                     console.log("滑块当前位置:", currentPosition);
 
                     // 验证用户滑动的距离是否正确
-                    if (currentPosition === targetPosition) {
+                    const tolerance = 5;
+                    if (Math.abs(targetPosition - parseInt(currentPosition)) <= tolerance) {
                         console.log("验证通过");
                         fetch('https://translate.yhswz.eu.org/proxy?url=https://yzm.1417402449.workers.dev/verify&data='+JSON.stringify({ sliderPosition: currentPosition ,token: token}), {
                             method: 'POST',
