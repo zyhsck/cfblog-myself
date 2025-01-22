@@ -154,13 +154,13 @@ function initializeSlider(targetPosition, token, verifyUrl, successCallback, fai
     sliderBlock.ondragstart = () => false;
 }
 
-// 发送验证请求
 async function verifyCaptcha(currentPosition, token, verifyUrl, successCallback, failureCallback) {
-    const response = await fetch(`${verifyUrl}&data=${JSON.stringify({ sliderPosition: currentPosition, token: token })}`, {
+    const response = await fetch(verifyUrl, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
+        body: JSON.stringify({ sliderPosition: currentPosition, token: token })
     });
 
     const data = await response.json();
