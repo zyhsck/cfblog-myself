@@ -7,24 +7,42 @@ function toggleTheme() {
     // 切换到浅色模式
     document.documentElement.style.setProperty('--background-color', '#ffffff');
     document.documentElement.style.setProperty('--text-color', '#000000');
+    document.documentElement.style.setProperty('--article-background-color', '#f9f9f9');
+    document.documentElement.style.setProperty('--article-text-color', '#333333');
   } else {
     // 切换到深色模式
-    document.documentElement.style.setProperty('--background-color', '#000000');
-    document.documentElement.style.setProperty('--text-color', '#ffffff');
+    document.documentElement.style.setProperty('--background-color', '#121212');
+    document.documentElement.style.setProperty('--text-color', '#e0e0e0');
+    document.documentElement.style.setProperty('--article-background-color', '#1e1e1e');
+    document.documentElement.style.setProperty('--article-text-color', '#cfcfcf');
   }
   isDarkMode = !isDarkMode; // 更新模式状态
 
   // 更新整个网页的样式
   document.body.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--background-color');
   document.body.style.color = getComputedStyle(document.documentElement).getPropertyValue('--text-color');
+
+  const articles = document.querySelectorAll('article');
+  articles.forEach(article => {
+    article.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--article-background-color');
+    article.style.color = getComputedStyle(document.documentElement).getPropertyValue('--article-text-color');
+  });
 }
 
 // 初始化默认主题
 window.addEventListener('load', function initializeTheme() {
   document.documentElement.style.setProperty('--background-color', '#ffffff');
   document.documentElement.style.setProperty('--text-color', '#000000');
+  document.documentElement.style.setProperty('--article-background-color', '#f9f9f9');
+  document.documentElement.style.setProperty('--article-text-color', '#333333');
   document.body.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--background-color');
   document.body.style.color = getComputedStyle(document.documentElement).getPropertyValue('--text-color');
+
+  const articles = document.querySelectorAll('article');
+  articles.forEach(article => {
+    article.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--article-background-color');
+    article.style.color = getComputedStyle(document.documentElement).getPropertyValue('--article-text-color');
+  });
 
   // 设置按钮样式
   const toggleButton = document.getElementById('theme-toggle-button');
