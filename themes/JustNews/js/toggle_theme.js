@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', function() {
       cursor: pointer;
       border-radius: 5px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      z-index: 9999; /* 确保按钮在所有元素之上 */
+      filter: none; /* 确保按钮不受反转影响 */
     }
 
     /* 亮色主题 */
@@ -43,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
       color: var(--button-text, black);
     }
 
-    /* 可以通过filter属性应用亮度反转 */
+    /* 使用filter反转除按钮外的所有内容 */
     .dark-theme * {
       filter: invert(1) hue-rotate(180deg);
     }
