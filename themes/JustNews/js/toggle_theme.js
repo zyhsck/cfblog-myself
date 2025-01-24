@@ -45,13 +45,9 @@ document.addEventListener('DOMContentLoaded', function() {
       color: var(--button-text, black);
     }
 
-    /* 使用filter反转除按钮外的所有内容 */
-    .dark-theme * {
-      filter: invert(1) hue-rotate(180deg);
-    }
-
-    .dark-theme img, .dark-theme video {
-      filter: invert(1) hue-rotate(180deg);
+    /* 只调整亮度，使用 filter: brightness() */
+    .dark-theme {
+      filter: brightness(0.5);  /* 调暗亮度，只影响背景、文字等 */
     }
   `;
   document.head.appendChild(style);
