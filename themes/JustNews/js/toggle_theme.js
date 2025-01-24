@@ -1,43 +1,66 @@
+
 document.addEventListener('DOMContentLoaded', function() {
-  // 为按钮动态添加样式
+  // 动态创建并添加 CSS 样式
   const style = document.createElement('style');
   style.textContent = `
+    /* 页面基础样式 */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #f0f4f8, #c9d6e3);
+      color: #333;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* 按钮样式 */
     #theme-toggle-button {
       position: fixed;
-      bottom: 20px;  /* 固定在右下角 */
-      right: 20px;   /* 固定在右下角 */
-      padding: 10px 20px;
+      bottom: 20px;
+      right: 20px;
+      padding: 12px 30px;
       font-size: 16px;
-      background-color: #f0f0f0;
+      background: linear-gradient(45deg, #6a11cb, #2575fc);
+      color: white;
       border: none;
       cursor: pointer;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      z-index: 9999; /* 确保按钮在所有元素之上 */
-      filter: none;  /* 确保按钮不受反转影响 */
+      border-radius: 30px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: background 0.3s ease, transform 0.3s ease;
+      z-index: 9999;
+    }
+
+    /* 按钮悬停效果 */
+    #theme-toggle-button:hover {
+      background: linear-gradient(45deg, #2575fc, #6a11cb);
+      transform: translateY(-3px);
+    }
+
+    /* 按钮点击时效果 */
+    #theme-toggle-button:active {
+      transform: translateY(1px);
     }
 
     /* 亮色主题 */
     .light-theme {
       --bg-color: white;
-      --text-color: black;
+      --text-color: #333;
       --button-bg: #f0f0f0;
-      --button-text: black;
+      --button-text: #333;
     }
 
     /* 暗色主题 */
     .dark-theme {
       --bg-color: #333;
-      --text-color: white;
+      --text-color: #f0f0f0;
       --button-bg: #555;
-      --button-text: white;
+      --button-text: #f0f0f0;
     }
 
-    /* 使用自定义的变量来设置元素的颜色 */
+    /* 页面背景和文字 */
     body {
       background-color: var(--bg-color, white);
       color: var(--text-color, black);
-      transition: background-color 0.3s, color 0.3s;
     }
 
     button {
@@ -45,14 +68,14 @@ document.addEventListener('DOMContentLoaded', function() {
       color: var(--button-text, black);
     }
 
-    /* 只调整亮度，使用 filter: brightness() */
+    /* 只调整亮度 */
     .dark-theme {
-      filter: brightness(0.5);  /* 调暗亮度，只影响背景、文字等 */
+      filter: brightness(0.7);
     }
   `;
   document.head.appendChild(style);
 
-  // 获取按钮和设置初始主题为亮色
+  // 获取按钮并设置初始主题为亮色
   const button = document.getElementById('theme-toggle-button');
   let isLightTheme = true;
   document.body.classList.add('light-theme');  // 默认添加亮色主题
