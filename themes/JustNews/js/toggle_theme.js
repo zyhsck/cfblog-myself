@@ -4,8 +4,8 @@ document.addEventListener('DOMContentLoaded', function() {
   style.textContent = `
     #theme-toggle-button {
       position: fixed;
-      top: 20px;
-      right: 20px;
+      bottom: 20px;  /* 固定在右下角 */
+      right: 20px;   /* 固定在右下角 */
       padding: 10px 20px;
       font-size: 16px;
       background-color: #f0f0f0;
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
       border-radius: 5px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       z-index: 9999; /* 确保按钮在所有元素之上 */
-      filter: none; /* 确保按钮不受反转影响 */
+      filter: none;  /* 确保按钮不受反转影响 */
     }
 
     /* 亮色主题 */
@@ -76,4 +76,3 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // 添加点击事件切换主题
   button.addEventListener('click', toggleTheme);
-});
