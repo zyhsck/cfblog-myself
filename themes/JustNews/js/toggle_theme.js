@@ -20,7 +20,7 @@ function toggleTheme() {
 }
 
 // 初始化默认主题
-(function initializeTheme() {
+window.addEventListener('load', function initializeTheme() {
   document.documentElement.style.setProperty('--background-color', '#ffffff');
   document.documentElement.style.setProperty('--text-color', '#000000');
   document.body.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--background-color');
@@ -43,4 +43,4 @@ function toggleTheme() {
 
   // 绑定点击事件
   toggleButton.addEventListener('click', toggleTheme);
-})();
+});
