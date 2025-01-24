@@ -14,27 +14,42 @@ document.addEventListener('DOMContentLoaded', function() {
       border-radius: 5px;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
-    
+
     /* 亮色主题 */
     .light-theme {
-      background-color: white;
-      color: black;
-    }
-
-    .light-theme button {
-      background-color: #f0f0f0;
-      color: black;
+      --bg-color: white;
+      --text-color: black;
+      --button-bg: #f0f0f0;
+      --button-text: black;
     }
 
     /* 暗色主题 */
     .dark-theme {
-      background-color: #333;
-      color: white;
+      --bg-color: #333;
+      --text-color: white;
+      --button-bg: #555;
+      --button-text: white;
     }
 
-    .dark-theme button {
-      background-color: #555;
-      color: white;
+    /* 使用自定义的变量来设置元素的颜色 */
+    body {
+      background-color: var(--bg-color, white);
+      color: var(--text-color, black);
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    button {
+      background-color: var(--button-bg, #f0f0f0);
+      color: var(--button-text, black);
+    }
+
+    /* 可以通过filter属性应用亮度反转 */
+    .dark-theme * {
+      filter: invert(1) hue-rotate(180deg);
+    }
+
+    .dark-theme img, .dark-theme video {
+      filter: invert(1) hue-rotate(180deg);
     }
   `;
   document.head.appendChild(style);
