@@ -76,3 +76,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // 添加点击事件切换主题
   button.addEventListener('click', toggleTheme);
+});
