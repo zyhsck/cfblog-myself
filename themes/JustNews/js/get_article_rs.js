@@ -5,7 +5,7 @@ new Valine({
     appKey: 'jAkrUC0ElQmq8wI34grFDYBJ',
     avatar: '',
     avatar_cdn: 'https://cravatar.cn/avatar/',
-    serverURLs: 'https://mgqqxqrr.api.lncldglobal.com',
+    serverURLs: 'https://translate.yhswz.eu.org/?url=https://mgqqxqrr.api.lncldglobal.com',
     placeholder: "快来发表你的天才评论！",
     visitor: true // 阅读量统计
 });
