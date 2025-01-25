@@ -184,7 +184,8 @@ function handleSuccess() {
         el: '#vcomment',
         appId: 'mGQqXQrRVZmob8DKm7RIKEp7-MdYXbMMI',
         appKey: 'jAkrUC0ElQmq8wI34grFDYBJ',
-        avatar: 'monsterid',
+        avatar: '',
+        avatar_cdn: 'https://cravatar.cn/avatar/',
         serverURLs: 'https://mgqqxqrr.api.lncldglobal.com',
         placeholder: "评论可以一针见血..."
     });
