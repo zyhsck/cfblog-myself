@@ -26,6 +26,10 @@ body, html {
     cursor: pointer;
     z-index: 3; /* 确保滚动提示图标位于封面最上层 */
   }
+  .cover h1{
+    color: white;
+    font-size: 45px;
+  }
 
   @keyframes bounce {
     0%, 100% {
