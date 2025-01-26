@@ -31,9 +31,9 @@
 		  padding: 0;
 		  overflow-x: hidden;
 		  scroll-behavior: smooth;
+		  height: 100%; /* 使页面高度占满视口 */
 		}
 		.section {
-		  height: 100vh;
 		  display: flex;
 		  align-items: center;
 		  justify-content: center;
@@ -41,6 +41,7 @@
 		  text-align: center;
 		}
 		.cover {
+		  height: 100vh; /* 使封面部分占满整个视口 */
 		  background: linear-gradient(135deg, #6c63ff, #b3baff);
 		  color: white;
 		  position: relative;
@@ -49,10 +50,9 @@
 		.blog {
 		  background: #f4f4f9;
 		  color: #333;
-		  min-height: 105px;
-		  position: relative;
+		  min-height: 105px; /* 设置最小高度 */
 		  z-index: 1; /* 确保博客内容位于封面之下 */
-		  margin-top: 100vh; /* 确保博客部分不与封面重叠 */
+		  width: 100%; /* 保证宽度占满视口 */
 		}
 		.scroll-icon {
 		  position: absolute;
