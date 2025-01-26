@@ -6,7 +6,7 @@ body, html {
     height: 100%; /* 使页面高度占满视口 */
   }
   /* 封面部分的样式 */
-  .cover {
+  .cover { 
     height: 100vh; /* 使封面部分占满整个视口 */
     background: linear-gradient(135deg, #6c63ff, #b3baff);
     color: white;
