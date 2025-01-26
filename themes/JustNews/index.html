@@ -23,9 +23,56 @@
 		<script type='text/javascript' src='https://cdn.smartcis.cn/npm/jquery@3.5.1/dist/jquery.min.js?ver=3.5.1' id='jquery-core-js'></script>
 		<script type='text/javascript' src='https://cdn.smartcis.cn/gh/WordPress/WordPress@5.6/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.3.2' id='jquery-migrate-js'></script>
 		<script type='text/javascript' src='https://cdn.smartcis.cn/gh/wpcom-cn/assets/fonts/icons-2.6.4.js?ver=6.1.2' id='wpcom-icons-js'></script>
-		<script>const style=document.createElement('style');style.type='text/css';const css=`body,html{margin:0;padding:0;overflow-x:hidden}.section{height:100vh;display:flex;align-items:center;justify-content:center;font-size:2rem;text-align:center}.cover{background:linear-gradient(135deg,#6c63ff,#b3baff);color:white}.blog{background:#f4f4f9;color:#333}.scroll-icon{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);font-size:1.5rem;animation:bounce 1.5s infinite}@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}`;if(style.styleSheet){style.styleSheet.cssText=css}else{style.appendChild(document.createTextNode(css))}document.head.appendChild(style);</script>
 		{{ &OPT.codeBeforHead }}
 	</head>
+	<style>
+		body, html {
+		  margin: 0;
+		  padding: 0;
+		  overflow-x: hidden;
+		  scroll-behavior: smooth;
+		}
+		.section {
+		  height: 100vh;
+		  display: flex;
+		  align-items: center;
+		  justify-content: center;
+		  font-size: 2rem;
+		  text-align: center;
+		}
+		.cover {
+		  background: linear-gradient(135deg, #6c63ff, #b3baff);
+		  color: white;
+		  position: relative;
+		  z-index: 2; /* 确保封面位于最上层 */
+		}
+		.blog {
+		  background: #f4f4f9;
+		  color: #333;
+		  min-height: 105px;
+		  position: relative;
+		  z-index: 1; /* 确保博客内容位于封面之下 */
+		  margin-top: 100vh; /* 确保博客部分不与封面重叠 */
+		}
+		.scroll-icon {
+		  position: absolute;
+		  bottom: 20px;
+		  left: 50%;
+		  transform: translateX(-50%);
+		  font-size: 1.5rem;
+		  animation: bounce 1.5s infinite;
+		  cursor: pointer;
+		  z-index: 3; /* 确保滚动提示图标位于封面最上层 */
+		}
+		@keyframes bounce {
+		  0%, 100% {
+			transform: translateY(0);
+		  }
+		  50% {
+			transform: translateY(-10px);
+		  }
+		}
+	  </style>
 	<body class="archive paged category category-zhishi category-5 paged-2 category-paged-2 lang-cn el-boxed">
 		<header class="header">
 			<div class="container clearfix">
@@ -195,14 +242,15 @@
 			</div>
 		</div>
 		<script>
-			// 平滑滚动功能
-			document.querySelector('.scroll-icon').addEventListener('click', () => {
-			  window.scrollTo({
-				top: window.innerHeight,
-				behavior: 'smooth'
+			document.addEventListener('DOMContentLoaded', function() {
+			  const scrollIcon = document.querySelector('.scroll-icon');
+			  const blogSection = document.querySelector('.blog');
+		
+			  scrollIcon.addEventListener('click', function() {
+				blogSection.scrollIntoView({ behavior: 'smooth' });
 			  });
 			});
-		</script>
+		  </script>
 		<footer class="footer">
 			<div class="container">
 				<div class="clearfix">
