@@ -18,8 +18,8 @@ body, html {
   }
   .cover .scroll-icon {
     position: absolute;
-    bottom: 20px;
-    left: 50%;
+    bottom: 5%;
+    left: 45%;
     transform: translateX(-50%);
     font-size: 1.5rem;
     animation: bounce 1.5s infinite;
