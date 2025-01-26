@@ -18,14 +18,15 @@ body, html {
   }
   .cover .scroll-icon {
     position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 50%;  /* 距离页面顶部的 50% */
+    left: 50%;  /* 距离页面左侧的 50% */
+    transform: translate(-50%, -50%);  /* 将元素移动回中心 */
     font-size: 1.5rem;
     animation: bounce 1.5s infinite;
     cursor: pointer;
-    z-index: 3; /* 确保滚动提示图标位于封面最上层 */
+    z-index: 3;
   }
+  
 
   @keyframes bounce {
     0%, 100% {
