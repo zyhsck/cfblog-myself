@@ -1,0 +1,55 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    height: 100%; /* 使页面高度占满视口 */
+  }
+  /* 封面部分的样式 */
+  .cover {
+    height: 100vh; /* 使封面部分占满整个视口 */
+    background: linear-gradient(135deg, #6c63ff, #b3baff);
+    color: white;
+    position: relative;
+    z-index: 2; /* 确保封面位于最上层 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cover .scroll-icon {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.5rem;
+    animation: bounce 1.5s infinite;
+    cursor: pointer;
+    z-index: 3; /* 确保滚动提示图标位于封面最上层 */
+  }
+
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  /* 博客部分的样式 */
+  .blog {
+    background: #f4f4f9;
+    color: #333;
+    min-height: 105px; /* 设置最小高度 */
+    z-index: 1; /* 确保博客内容位于封面之下 */
+    width: 100%; /* 保证宽度占满视口 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+
+  .blog h1 {
+    margin: 0;
+    font-size: 2rem;
+  }
